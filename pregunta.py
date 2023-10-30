@@ -17,4 +17,18 @@ def clean_data():
     # Inserte su código aquí
     #
 
+
+    df.dropna(inplace=True)
+
+    df = df.apply(lambda x: x.astype(str)
+                  .str.replace("_", "-")
+                  .str.replace("-", " ")
+                  .str.replace("$", "")
+                  .str.replace(",", ""))
+
+    df.loc[:, df.dtypes=='object']=df.loc[:, df.dtypes=='object'].apply(lambda row: row.str.lower())
+    df.fecha_de_beneficio = pd.to_datetime(df['fecha_de_beneficio'],format="mixed",dayfirst=True)
+    df.monto_del_credito = df.monto_del_credito.astype(float)
+    df.drop_duplicates(inplace=True)
+
     return df
